@@ -7,7 +7,7 @@ from schwifty import BIC, IBAN
 from dta.constants import ChargesRule, IdentificationBankAddress, IdentificationPurpose
 from dta.fields import AlphaNumeric, Amount, Currency, Date, Iban, Numeric
 from dta.records.record import DTARecord
-from dta.util import remove_whitespace
+from dta.util import remove_whitespace, is_swiss_iban
 
 
 class DTARecord836(DTARecord):  # pylint: disable=too-many-instance-attributes
@@ -231,7 +231,7 @@ class DTARecord836(DTARecord):  # pylint: disable=too-many-instance-attributes
                 "IBAN INVALID: Client account must be a valid with a 21 digit Swiss IBAN (CH resp. LI) ."
             )
         else:
-            if client_iban.country_code not in ('CH', 'LI'):
+            if is_swiss_iban(client_iban):
                 self.add_error(
                     'client_account',
                     "IBAN INVALID: Client account must be a valid with a 21 digit Swiss IBAN (CH resp. LI) ."

@@ -10,7 +10,7 @@ from dta.constants import ChargesRule, IdentificationBankAddress, Identification
 from dta.records import DTARecord836
 from dta.records.record import DTARecord
 from dta.records.record890 import DTARecord890
-
+from dta.util import is_swiss_iban
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s\n%(message)s')
 LOGGER = logging.getLogger(f'{__name__}-validation')
@@ -171,7 +171,7 @@ class DTAFile(object):
         record.amount = amount
         record.conversation_rate = conversation_rate
         record.client_address = client_address
-        if recipient_iban[:2] in ('CH', 'LI'):
+        if is_swiss_iban(record.recipient_iban):
             record.bank_address_type = IdentificationBankAddress.BENEFICIARY_ADDRESS
             record.bank_address = ('', '')
         else:

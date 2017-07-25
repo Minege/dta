@@ -15,3 +15,14 @@ def remove_whitespace(text: str, whitespace_chars: str = whitespace) -> str:
         if char in text:
             text = text.replace(char, '')
     return text
+
+
+def is_swiss_iban(iban: str) -> bool:
+    """Check if an IBAN is Swiss or not.
+
+    Args:
+        iban: the IBAN to check
+
+    Returns: ``True`` if the IBAN is swiss, ``False`` otherwise.
+    """
+    return iban.country_code in ('CH', 'LI') if hasattr(iban, 'country_code') else iban.startswith(('CH', 'LI'))
